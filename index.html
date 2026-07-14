@@ -269,6 +269,10 @@
     grid-template-columns:1.1fr 0.9fr;
     gap:64px;
   }
+  .about-right{
+    display:flex;
+    flex-direction:column;
+  }
   .about-grid p{
     font-size:clamp(16px,1.6vw,19px);
     line-height:1.8;
@@ -430,6 +434,51 @@
   .terminal .cm{color:var(--text-faint);font-style:italic;}
   .eng-skills{
     margin-top:40px;
+  }
+
+  /* ---------- portrait / media ---------- */
+  .portrait-frame{
+    border:1px solid var(--line-strong);
+    overflow:hidden;
+    margin-bottom:24px;
+    position:relative;
+  }
+  .portrait-frame img{
+    width:100%;
+    display:block;
+    filter:grayscale(0.35) contrast(1.05) brightness(0.95);
+  }
+  .portrait-frame::after{
+    content:"";
+    position:absolute;inset:0;
+    background:linear-gradient(180deg, transparent 55%, rgba(11,13,12,0.55));
+    pointer-events:none;
+  }
+  .portrait-frame .tc-label{
+    position:absolute;
+    bottom:12px;left:14px;
+    z-index:2;
+  }
+  .video-embed{
+    aspect-ratio:16/9;
+    width:100%;
+    border:1px solid var(--line-strong);
+    margin-bottom:16px;
+    overflow:hidden;
+    background:var(--bg);
+  }
+  .video-embed iframe{
+    width:100%;height:100%;border:0;display:block;
+  }
+  .frame-media{
+    width:100%;
+    aspect-ratio:16/9;
+    overflow:hidden;
+    margin-bottom:16px;
+    border:1px solid var(--line);
+  }
+  .frame-media img{
+    width:100%;height:100%;object-fit:cover;display:block;
   }
 
   /* ---------- reel / filmstrip ---------- */
@@ -671,7 +720,12 @@
       <p data-en="Led an AI department for six months, combining team management with hands-on development and production.">Пів року очолював AI-відділ: поєднував менеджмент команди з хендс-он розробкою і продакшеном.</p>
       <p data-en="Came to AI through broadcast and editing: worked as a broadcast operator and motion designer at a radio station. I now bring that same eye for structure and process into code and automation architecture.">До AI прийшов через ефір і монтаж: працював broadcast-оператором і motion-дизайнером на радіо. Той самий погляд на структуру і процес тепер переношу в код та архітектуру автоматизацій.</p>
     </div>
-    <div class="spec-sheet reveal">
+    <div class="about-right">
+      <div class="portrait-frame reveal">
+        <img src="oleh-photo.jpg" alt="Oleh" loading="lazy">
+        <span class="tc-label mono">STILL · 00:00:07:00</span>
+      </div>
+      <div class="spec-sheet reveal">
       <div class="spec-row"><span class="k mono">LOCATION</span><span class="v">Kyiv, Ukraine</span></div>
       <div class="spec-row"><span class="k mono">BACKGROUND</span><span class="v" data-en="Journalism → Broadcast &amp; Motion Design">Журналістика → Broadcast &amp; Motion Design</span></div>
       <div class="spec-row"><span class="k mono">CURRENT FOCUS</span><span class="v">AI Engineering &amp; Automation</span></div>
@@ -679,6 +733,7 @@
       <div class="spec-row"><span class="k mono">ALSO DOING</span><span class="v">AI Content · Avatars · Voice Cloning</span></div>
       <div class="spec-row"><span class="k mono">LEADERSHIP</span><span class="v" data-en="AI Department Lead · 6 months">AI Department Lead · 6 місяців</span></div>
       <div class="spec-row"><span class="k mono">STATUS</span><span class="v" data-en="Open to opportunities">Відкритий до пропозицій</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -806,6 +861,9 @@
     <div class="frame">
       <div class="sprockets"><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <span class="tc-label mono">FRAME 01 · 00:00:21:00</span>
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/63BcOqq2DO0" title="THE LAST RIDE" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
       <h3>THE LAST RIDE</h3>
       <p data-en="A vertical AI microdrama for STORYBY. Full pre-production and production cycle: character design, a 21-shot storyboard in 9:16 format, and an animation prompt plan.">Вертикальна AI-дорама для STORYBY. Повний цикл пре-продакшну і продакшну: дизайн персонажів, розкадровка 21 кадру у форматі 9:16 та план анімаційних промптів.</p>
       <div class="tags">
@@ -836,6 +894,9 @@
     <div class="frame">
       <div class="sprockets"><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <span class="tc-label mono">FRAME 04 · 00:00:01:00</span>
+      <div class="frame-media">
+        <img src="illustration-disney.jpg" alt="Disney/Pixar-style illustration" loading="lazy">
+      </div>
       <h3 data-en="Disney/Pixar-style illustration">Ілюстрація у стилі Disney/Pixar</h3>
       <p data-en="A layered PSD illustration generated with Nano Banana and finished in Photoshop.">Багатошарова PSD-ілюстрація, згенерована через Nano Banana і доопрацьована в Photoshop.</p>
       <div class="tags">
@@ -846,14 +907,39 @@
     <div class="frame">
       <div class="sprockets"><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <span class="tc-label mono">FRAME 05 · 00:00:01:00</span>
-      <div class="video-slot">
-        <div class="play"></div>
-        <span class="vlabel" data-en="Video coming soon">Відео буде додано</span>
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/LIQVwcNnEGU" title="Video tutorial, Elai by Panopto" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
       </div>
       <h3 data-en="Video tutorial, Elai by Panopto">Відеоінструкція, Elai by Panopto</h3>
       <p data-en="Recorded and edited a step-by-step video tutorial explaining the product features.">Записав і змонтував навчальну відеоінструкцію з поясненням функціоналу продукту крок за кроком.</p>
       <div class="tags">
         <span>Screen Recording</span><span>Video Editing</span><span>Tutorial</span>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="sprockets"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <span class="tc-label mono">FRAME 06 · 00:00:01:00</span>
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/yY4AkNEKukQ" title="Dance video, production &amp; editing" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <h3 data-en="Dance video, production &amp; editing">Dance-відео, продакшн і монтаж</h3>
+      <p data-en="Same pipeline as THE LAST RIDE: generation, animation and edit, applied to a dance video.">Той самий пайплайн, що й у THE LAST RIDE: генерація, анімація та монтаж, застосовані до dance-відео.</p>
+      <div class="tags">
+        <span>Video Editing</span><span>Kling</span><span>Motion Design</span>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="sprockets"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <span class="tc-label mono">FRAME 07 · 00:00:01:00</span>
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/dM0DQx9xW4c" title="Video about Pylyp Orlyk" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <h3 data-en="Video about Pylyp Orlyk">Відео про Пилипа Орлика</h3>
+      <p data-en="A narrative video production about hetman Pylyp Orlyk.">Відеоролик про гетьмана Пилипа Орлика.</p>
+      <div class="tags">
+        <span>Video Production</span><span>Storytelling</span>
       </div>
     </div>
 
