@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oleh — AI Content &amp; Automation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0D0C;
+    --bg-elev:#141712;
+    --bg-elev-2:#1B1F19;
+    --text:#F0EEE6;
+    --text-dim:#8C9289;
+    --text-faint:#565B54;
+    --rec:#FF3B30;
+    --signal:#4DD8C4;
+    --amber:#FFB020;
+    --line:rgba(240,238,230,0.12);
+    --line-strong:rgba(240,238,230,0.22);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* grain / scanline overlay */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:200;
+    background-image:repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.018) 0px,
+      rgba(255,255,255,0.018) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    mix-blend-mode:overlay;
+  }
+
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .display{font-family:'Space Grotesk',sans-serif;}
+
+  a{color:inherit;text-decoration:none;}
+
+  ::selection{background:var(--rec);color:var(--bg);}
+
+  /* ---------- top status bar ---------- */
+  .statusbar{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:100;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 28px;
+    font-size:11px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    pointer-events:none;
+    mix-blend-mode:difference;
+  }
+  .statusbar .rec{
+    display:flex;align-items:center;gap:8px;
+    color:var(--text);
+  }
+  .rec-dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--rec);
+    animation:pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;}
+    50%{opacity:0.25;}
+  }
+  .tc{color:var(--text);}
+  .status-right{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    pointer-events:auto;
+  }
+  .lang-toggle{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:11px;
+  }
+  .lang-toggle button{
+    background:none;
+    border:none;
+    color:var(--text-dim);
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    cursor:pointer;
+    padding:2px;
+  }
+  .lang-toggle button.active{color:var(--signal);}
+  .lang-sep{color:var(--text-faint);}
+
+  /* ---------- corner brackets ---------- */
+  .brackets span{
+    position:fixed;
+    width:22px;height:22px;
+    border:1.5px solid var(--line-strong);
+    z-index:90;
+    pointer-events:none;
+  }
+  .brackets .tl{top:56px;left:24px;border-right:none;border-bottom:none;}
+  .brackets .tr{top:56px;right:24px;border-left:none;border-bottom:none;}
+  .brackets .bl{bottom:24px;left:24px;border-right:none;border-top:none;}
+  .brackets .br{bottom:24px;right:24px;border-left:none;border-top:none;}
+
+  .topnav{
+    position:fixed;
+    bottom:26px;left:50%;
+    transform:translateX(-50%);
+    z-index:100;
+    display:flex;
+    gap:22px;
+    padding:10px 18px;
+    background:rgba(20,23,18,0.7);
+    backdrop-filter:blur(6px);
+    border:1px solid var(--line);
+  }
+  .topnav a{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    transition:color 0.25s ease;
+  }
+  .topnav a:hover{color:var(--signal);}
+  @media (max-width:860px){
+    .topnav{display:none;}
+  }
+
+  section{
+    position:relative;
+    padding:120px 8vw;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding-top:0;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--signal);
+    margin-bottom:24px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:26px;height:1px;
+    background:var(--signal);
+    display:inline-block;
+  }
+  .hero h1{
+    font-size:clamp(56px,11vw,150px);
+    line-height:0.92;
+    font-weight:700;
+    letter-spacing:-0.02em;
+  }
+  .hero .sub{
+    margin-top:28px;
+    max-width:620px;
+    font-size:clamp(16px,2vw,20px);
+    color:var(--text-dim);
+    line-height:1.6;
+  }
+  .hero .roles{
+    margin-top:40px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .role-chip{
+    font-size:12px;
+    font-family:'JetBrains Mono',monospace;
+    padding:7px 14px;
+    border:1px solid var(--line-strong);
+    border-radius:2px;
+    color:var(--text-dim);
+    letter-spacing:0.02em;
+  }
+  .role-chip.primary{
+    color:var(--bg);
+    background:var(--signal);
+    border-color:var(--signal);
+    font-weight:600;
+  }
+  .scroll-cue{
+    position:absolute;
+    bottom:48px;left:8vw;
+    display:flex;align-items:center;gap:10px;
+    font-size:11px;
+    color:var(--text-faint);
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+  }
+  .scroll-cue .bar{
+    width:1px;height:34px;
+    background:linear-gradient(to bottom, var(--signal), transparent);
+    animation:scrolldown 1.8s ease-in-out infinite;
+  }
+  @keyframes scrolldown{
+    0%{transform:scaleY(0);transform-origin:top;}
+    50%{transform:scaleY(1);transform-origin:top;}
+    50.01%{transform-origin:bottom;}
+    100%{transform:scaleY(0);transform-origin:bottom;}
+  }
+
+  /* ---------- reveal ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.in-view{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  /* ---------- section heads ---------- */
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:56px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:20px;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .section-head h2{
+    font-size:clamp(28px,4vw,42px);
+    font-weight:600;
+  }
+  .section-head .tag{
+    font-size:12px;
+    color:var(--text-faint);
+    letter-spacing:0.1em;
+  }
+
+  /* ---------- about ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:64px;
+  }
+  .about-grid p{
+    font-size:clamp(16px,1.6vw,19px);
+    line-height:1.8;
+    color:var(--text-dim);
+  }
+  .about-grid p + p{margin-top:20px;}
+  .spec-sheet{
+    border:1px solid var(--line);
+    background:var(--bg-elev);
+  }
+  .spec-row{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    padding:18px 20px;
+    border-bottom:1px solid var(--line);
+    font-size:13px;
+  }
+  .spec-row:last-child{border-bottom:none;}
+  .spec-row .k{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--text-faint);
+    letter-spacing:0.08em;
+    white-space:nowrap;
+  }
+  .spec-row .v{
+    text-align:right;
+    color:var(--text);
+  }
+
+  /* ---------- signal chain ---------- */
+  .chain{
+    display:grid;
+    grid-template-columns:1fr auto 1fr auto 1fr;
+    align-items:stretch;
+    gap:0;
+  }
+  .chain-node{
+    background:var(--bg-elev);
+    border:1px solid var(--line);
+    padding:32px 26px;
+  }
+  .chain-node .n-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--signal);
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .chain-node h3{
+    font-size:19px;
+    font-weight:600;
+    margin-bottom:16px;
+  }
+  .chain-node ul{
+    list-style:none;
+    font-size:13px;
+    color:var(--text-dim);
+    line-height:2;
+  }
+  .chain-link{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:48px;
+  }
+  .chain-link .line{
+    height:1px;
+    width:0%;
+    background:linear-gradient(to right, var(--signal), var(--amber));
+    transition:width 1.1s ease 0.2s;
+  }
+  .chain.in-view .chain-link .line{width:100%;}
+
+  /* ---------- engineering ---------- */
+  .eng-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:56px;
+    align-items:start;
+  }
+  .eng-intro{
+    font-size:15px;
+    color:var(--text-dim);
+    line-height:1.8;
+    margin-bottom:36px;
+  }
+  .flow-row{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:0;
+    margin-bottom:14px;
+  }
+  .flow-step{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    padding:10px 14px;
+    border:1px solid var(--line-strong);
+    background:var(--bg-elev);
+    color:var(--text);
+    letter-spacing:0.02em;
+  }
+  .flow-arrow{
+    color:var(--amber);
+    padding:0 10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+  }
+  .flow-caption{
+    font-size:12px;
+    color:var(--text-faint);
+    margin-top:16px;
+    line-height:1.6;
+  }
+  .case-label{
+    font-size:11px;
+    color:var(--amber);
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    margin:28px 0 14px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+  }
+  .terminal{
+    background:#0E100D;
+    border:1px solid var(--line-strong);
+    overflow:hidden;
+  }
+  .terminal-bar{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:11px 14px;
+    border-bottom:1px solid var(--line);
+  }
+  .terminal-bar span{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--line-strong);
+  }
+  .terminal-bar .fname{
+    margin-left:8px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--text-faint);
+  }
+  .terminal pre{
+    padding:20px;
+    overflow-x:auto;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    line-height:1.85;
+    color:var(--text-dim);
+  }
+  .terminal .kw{color:var(--signal);}
+  .terminal .fn{color:var(--amber);}
+  .terminal .str{color:#C9D8A0;}
+  .terminal .cm{color:var(--text-faint);font-style:italic;}
+  .eng-skills{
+    margin-top:40px;
+  }
+
+  /* ---------- reel / filmstrip ---------- */
+  .filmstrip{
+    display:flex;
+    gap:22px;
+    overflow-x:auto;
+    padding-bottom:24px;
+    scroll-snap-type:x proximity;
+  }
+  .filmstrip::-webkit-scrollbar{height:4px;}
+  .filmstrip::-webkit-scrollbar-thumb{background:var(--line-strong);}
+
+  .frame{
+    scroll-snap-align:start;
+    flex:0 0 340px;
+    background:var(--bg-elev);
+    border:1px solid var(--line);
+    position:relative;
+    padding:26px 24px 28px;
+    transition:transform 0.35s ease, border-color 0.35s ease;
+  }
+  .frame:hover{
+    transform:translateY(-6px);
+    border-color:var(--line-strong);
+  }
+  .sprockets{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:18px;
+  }
+  .sprockets span{
+    width:8px;height:8px;
+    border-radius:1px;
+    background:var(--bg);
+    border:1px solid var(--line-strong);
+  }
+  .frame .tc-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--amber);
+    letter-spacing:0.1em;
+    margin-bottom:14px;
+    display:block;
+  }
+  .frame h3{
+    font-size:19px;
+    font-weight:600;
+    margin-bottom:12px;
+    line-height:1.3;
+  }
+  .frame p{
+    font-size:13.5px;
+    color:var(--text-dim);
+    line-height:1.7;
+    margin-bottom:18px;
+  }
+  .frame .tags{
+    display:flex;flex-wrap:wrap;gap:6px;
+  }
+  .frame .tags span{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    color:var(--text-faint);
+    border:1px solid var(--line);
+    padding:4px 8px;
+  }
+  .video-slot{
+    aspect-ratio:16/9;
+    border:1px dashed var(--line-strong);
+    background:var(--bg);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:16px;
+  }
+  .video-slot .play{
+    width:0;height:0;
+    border-top:9px solid transparent;
+    border-bottom:9px solid transparent;
+    border-left:14px solid var(--text-faint);
+  }
+  .video-slot .vlabel{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    color:var(--text-faint);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+
+  /* ---------- stack ---------- */
+  .stack-groups{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:40px;
+  }
+  .stack-group .g-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--signal);
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    margin-bottom:18px;
+  }
+  .chip-row{
+    display:flex;flex-wrap:wrap;gap:8px;
+  }
+  .chip{
+    font-size:13px;
+    padding:8px 13px;
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    transition:border-color 0.25s ease, color 0.25s ease;
+  }
+  .chip:hover{
+    border-color:var(--signal);
+    color:var(--text);
+  }
+
+  /* ---------- contact ---------- */
+  .contact-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .contact h2{
+    font-size:clamp(34px,6vw,72px);
+    font-weight:700;
+    line-height:1.05;
+    max-width:820px;
+  }
+  .contact h2 .accent{color:var(--signal);}
+  .contact-list{
+    margin-top:52px;
+    width:100%;
+    border-top:1px solid var(--line);
+  }
+  .contact-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 0;
+    border-bottom:1px solid var(--line);
+    font-size:16px;
+  }
+  .contact-row .c-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--text-faint);
+    letter-spacing:0.12em;
+  }
+  .contact-row .c-val{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--text);
+  }
+  footer{
+    padding:36px 8vw 48px;
+    display:flex;
+    justify-content:space-between;
+    font-size:11px;
+    color:var(--text-faint);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:860px){
+    section{padding:90px 6vw;}
+    .about-grid{grid-template-columns:1fr;gap:36px;}
+    .chain{grid-template-columns:1fr;}
+    .chain-link{width:100%;height:36px;}
+    .chain-link .line{width:1px;height:0%;}
+    .chain.in-view .chain-link .line{height:100%;width:1px;}
+    .stack-groups{grid-template-columns:1fr;gap:32px;}
+    .eng-grid{grid-template-columns:1fr;gap:36px;}
+    .flow-step{font-size:10.5px;padding:8px 10px;}
+    .statusbar{padding:14px 18px;font-size:10px;}
+    .brackets span{width:16px;height:16px;}
+    .brackets .tl,.brackets .tr{top:44px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+    .reveal{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="statusbar">
+  <div class="rec"><span class="rec-dot"></span> REC · KYIV, UA</div>
+  <div class="status-right">
+    <div class="tc mono" id="timecode">00:00:00:00</div>
+    <div class="lang-toggle mono">
+      <button type="button" data-lang-btn="ua" class="active">UA</button>
+      <span class="lang-sep">/</span>
+      <button type="button" data-lang-btn="en">EN</button>
+    </div>
+  </div>
+</div>
+
+<div class="brackets">
+  <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+</div>
+
+<nav class="topnav mono">
+  <a href="#about">About</a>
+  <a href="#chain">Process</a>
+  <a href="#engineering">Engineering</a>
+  <a href="#reel">Reel</a>
+  <a href="#stack">Stack</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow mono">AI SPECIALIST · AI ENGINEER · AI CONTENT</div>
+  <h1 class="display">Oleh</h1>
+  <p class="sub" data-en="AI Specialist with a lean toward code: I build automations, pipelines and integrations in Python, JSON and APIs, and also run AI content end to end, from generative video to voice cloning.">AI Specialist з ухилом у код: будую автоматизації, пайплайни та інтеграції на Python, JSON і API, а також відповідаю за AI-контент повного циклу, від генеративного відео до voice cloning.</p>
+  <div class="roles">
+    <span class="role-chip primary">AI Specialist</span>
+    <span class="role-chip">AI Engineer</span>
+    <span class="role-chip">AI Content</span>
+  </div>
+  <div class="scroll-cue"><span class="bar"></span> <span data-en="Scroll down">Гортай нижче</span></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-head reveal">
+    <h2 class="display" data-en="About me">Про мене</h2>
+    <div class="tag mono">01 / OVERVIEW</div>
+  </div>
+  <div class="about-grid">
+    <div class="reveal">
+      <p data-en="Three years working at the intersection of AI development and production. Main focus: code. I build automations, data collection and processing pipelines, and API integrations. In parallel, I run AI content end to end: avatars, voice cloning, generative video and images.">Три роки працюю на межі AI-розробки та продакшну. Основний фокус, код: будую автоматизації, пайплайни збору й обробки даних, інтеграції через API. Паралельно веду AI-контент повного циклу, аватари, клонування голосу, генеративне відео та зображення.</p>
+      <p data-en="Led an AI department for six months, combining team management with hands-on development and production.">Пів року очолював AI-відділ: поєднував менеджмент команди з хендс-он розробкою і продакшеном.</p>
+      <p data-en="Came to AI through broadcast and editing: worked as a broadcast operator and motion designer at a radio station. I now bring that same eye for structure and process into code and automation architecture.">До AI прийшов через ефір і монтаж: працював broadcast-оператором і motion-дизайнером на радіо. Той самий погляд на структуру і процес тепер переношу в код та архітектуру автоматизацій.</p>
+    </div>
+    <div class="spec-sheet reveal">
+      <div class="spec-row"><span class="k mono">LOCATION</span><span class="v">Kyiv, Ukraine</span></div>
+      <div class="spec-row"><span class="k mono">BACKGROUND</span><span class="v" data-en="Journalism → Broadcast &amp; Motion Design">Журналістика → Broadcast &amp; Motion Design</span></div>
+      <div class="spec-row"><span class="k mono">CURRENT FOCUS</span><span class="v">AI Engineering &amp; Automation</span></div>
+      <div class="spec-row"><span class="k mono">CORE STACK</span><span class="v">Python · APIs · Automation Pipelines</span></div>
+      <div class="spec-row"><span class="k mono">ALSO DOING</span><span class="v">AI Content · Avatars · Voice Cloning</span></div>
+      <div class="spec-row"><span class="k mono">LEADERSHIP</span><span class="v" data-en="AI Department Lead · 6 months">AI Department Lead · 6 місяців</span></div>
+      <div class="spec-row"><span class="k mono">STATUS</span><span class="v" data-en="Open to opportunities">Відкритий до пропозицій</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNAL CHAIN -->
+<section id="chain">
+  <div class="section-head reveal">
+    <h2 class="display" data-en="How it works">Як це працює</h2>
+    <div class="tag mono">02 / SIGNAL CHAIN</div>
+  </div>
+  <div class="chain reveal">
+    <div class="chain-node">
+      <div class="n-label mono">INPUT</div>
+      <h3 data-en="Idea &amp; material">Ідея та матеріал</h3>
+      <ul>
+        <li data-en="Script &amp; storyboard">Сценарій і розкадровка</li>
+        <li data-en="Character reference sheets">Референс-аркуші персонажів</li>
+        <li data-en="Voice for cloning">Голос для клонування</li>
+      </ul>
+    </div>
+    <div class="chain-link"><div class="line"></div></div>
+    <div class="chain-node">
+      <div class="n-label mono">PROCESS</div>
+      <h3 data-en="Generation &amp; automation">Генерація та автоматизація</h3>
+      <ul>
+        <li>Nano Banana · Midjourney · ComfyUI</li>
+        <li>n8n · Google Apps Script</li>
+        <li>Claude API · Python</li>
+      </ul>
+    </div>
+    <div class="chain-link"><div class="line"></div></div>
+    <div class="chain-node">
+      <div class="n-label mono">OUTPUT</div>
+      <h3 data-en="Final content">Готовий контент</h3>
+      <ul>
+        <li data-en="Kling · Veo · Runway animation">Kling · Veo · Runway анімація</li>
+        <li data-en="HeyGen avatars · ElevenLabs">HeyGen аватари · ElevenLabs</li>
+        <li data-en="Edited video">Змонтоване відео</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ENGINEERING -->
+<section id="engineering">
+  <div class="section-head reveal">
+    <h2 class="display" data-en="Engineering">Технічна частина</h2>
+    <div class="tag mono">03 / ENGINEERING</div>
+  </div>
+  <p class="eng-intro reveal" data-en="This is the part I am growing the most right now: code, automation architecture, and working with APIs. Below is a breakdown of a real pipeline I built from scratch for Elai by Panopto.">Найбільше зараз розвиваю саме цю частину: код, архітектуру автоматизацій і роботу з API. Нижче, розбір реального пайплайну, який побудував з нуля для Elai by Panopto.</p>
+  <div class="eng-grid">
+    <div class="reveal">
+      <div class="flow-row">
+        <span class="flow-step">Slack API</span><span class="flow-arrow">→</span>
+        <span class="flow-step" data-en="Apps Script trigger">Apps Script тригер</span><span class="flow-arrow">→</span>
+      </div>
+      <div class="flow-row">
+        <span class="flow-step" data-en="Sentiment parser">Sentiment-парсер</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Google Sheets</span><span class="flow-arrow">→</span>
+        <span class="flow-step" data-en="Confluence docs">Confluence-докс</span>
+      </div>
+      <p class="flow-caption" data-en="Deduplication by timestamp, filtering of system messages, New / In Review / Done statuses. The project initially covered Jira, Zendesk, G2 and email; in the final version I deliberately narrowed it to Slack so the pipeline stayed reliable and easy to maintain.">Дедуплікація за timestamp, фільтрація системних повідомлень, статуси New / In Review / Done. Спочатку проєкт покривав Jira, Zendesk, G2 і email, у фінальній версії свідомо звузив до Slack, щоб пайплайн залишався надійним і простим у підтримці.</p>
+
+      <div class="case-label mono" data-en="Case 02">Кейс 02</div>
+      <div class="flow-row">
+        <span class="flow-step">Jupyter Notebook</span><span class="flow-arrow">→</span>
+        <span class="flow-step" data-en="Resize/processing (Python)">Ресайз/обробка (Python)</span><span class="flow-arrow">→</span>
+      </div>
+      <div class="flow-row">
+        <span class="flow-step">Upload API</span><span class="flow-arrow">→</span>
+        <span class="flow-step" data-en="Website (target size)">Сайт (заданий розмір)</span>
+      </div>
+      <p class="flow-caption" data-en="An automation that processed content directly inside Jupyter Notebook, resized images to fit the site template, and published the result without manual intervention.">Автоматизація, яка обробляла контент прямо в Jupyter Notebook, приводила зображення до потрібного розміру під шаблон сайту і публікувала результат без ручного втручання.</p>
+
+      <div class="eng-skills spec-sheet">
+        <div class="spec-row"><span class="k mono">LANGUAGES</span><span class="v">JavaScript (Apps Script), Python, HTML/CSS</span></div>
+        <div class="spec-row"><span class="k mono">APIS</span><span class="v">Slack API, Sheets API, Claude API, REST</span></div>
+        <div class="spec-row"><span class="k mono">CONCEPTS</span><span class="v" data-en="OAuth scopes, triggers, error handling">OAuth scopes, тригери, обробка помилок</span></div>
+        <div class="spec-row"><span class="k mono" data-en="ALSO AT ELAI">ТАКОЖ В ELAI</span><span class="v">AWS · Jupyter Notebook · Frontend · JSON</span></div>
+        <div class="spec-row"><span class="k mono" data-en="CURRENTLY LEVELING UP">ПРОКАЧУЮ ЗАРАЗ</span><span class="v" data-en="System architecture, backend fundamentals">Архітектура систем, backend-основи</span></div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span></span><span></span><span></span>
+          <span class="fname">feedback-pipeline.gs</span>
+        </div>
+        <pre><span class="cm" data-en="// Collect feedback from Slack into Google Sheets">// Збір фідбеку зі Slack у Google Sheets</span>
+<span class="kw">function</span> <span class="fn">collectSlackFeedback</span>() {
+  <span class="kw">const</span> messages = <span class="fn">fetchChannelHistory</span>(CHANNEL_ID);
+
+  <span class="kw">const</span> parsed = messages
+    .filter(msg =&gt; !<span class="fn">isSystemMessage</span>(msg))
+    .map(msg =&gt; ({
+      text: msg.text,
+      sentiment: <span class="fn">detectSentiment</span>(msg.text),
+      ts: msg.ts
+    }));
+
+  <span class="kw">const</span> sheet = SpreadsheetApp
+    .getActive()
+    .getSheetByName(<span class="str">'Feedback'</span>);
+
+  <span class="kw">const</span> existingIds = <span class="fn">getExistingIds</span>(sheet);
+
+  parsed
+    .filter(item =&gt; !existingIds.has(item.ts))
+    .forEach(item =&gt; <span class="fn">appendRow</span>(sheet, item, <span class="str">'New'</span>));
+}</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REEL -->
+<section id="reel">
+  <div class="section-head reveal">
+    <h2 class="display" data-en="Projects">Проєкти</h2>
+    <div class="tag mono">04 / REEL</div>
+  </div>
+  <div class="filmstrip reveal">
+
+    <div class="frame">
+      <div class="sprockets"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <span class="tc-label mono">FRAME 01 · 00:00:21:00</span>
+      <h3>THE LAST RIDE</h3>
+      <p data-en="A vertical AI microdrama for STORYBY. Full pre-production and production cycle: character design, a 21-shot storyboard in 9:16 format, and an animation prompt plan.">Вертикальна AI-дорама для STORYBY. Повний цикл пре-продакшну і продакшну: дизайн персонажів, розкадровка 21 кадру у форматі 9:16 та план анімаційних промптів.</p>
+      <div class="tags">
+        <span>Character Design</span><span>Storyboard</span><span>9:16</span><span>Nano Banana 2</span><span>Kling</span>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="sprockets"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <span class="tc-label mono">FRAME 02 · 00:00:01:00</span>
+      <h3 data-en="Feedback pipeline, Elai by Panopto">Feedback-пайплайн, Elai by Panopto</h3>
+      <p data-en="Automatic collection of feedback from Slack into Google Sheets, built on Google Apps Script: keyword-based sentiment detection, deduplication, and processing statuses.">Автоматичний збір фідбеку зі Slack у Google Sheets на Google Apps Script: визначення тональності за ключовими словами, дедуплікація і статуси обробки.</p>
+      <div class="tags">
+        <span>Google Apps Script</span><span>Slack API</span><span>Automation</span>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="sprockets"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <span class="tc-label mono">FRAME 03 · 00:00:21:00</span>
+      <h3 data-en="2D AI Artist, test assignment">2D AI Artist, тестове завдання</h3>
+      <p data-en="An in-depth answer to 21 questions about workflows in ComfyUI, ControlNet, SDXL, SD1.5 and Flux for a game studio.">Розгорнута відповідь на 21 питання про робочі процеси в ComfyUI, ControlNet, SDXL, SD1.5 і Flux для гейм-студії.</p>
+      <div class="tags">
+        <span>ComfyUI</span><span>ControlNet</span><span>SDXL</span><span>Flux</span>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="sprockets"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <span class="tc-label mono">FRAME 04 · 00:00:01:00</span>
+      <h3 data-en="Disney/Pixar-style illustration">Ілюстрація у стилі Disney/Pixar</h3>
+      <p data-en="A layered PSD illustration generated with Nano Banana and finished in Photoshop.">Багатошарова PSD-ілюстрація, згенерована через Nano Banana і доопрацьована в Photoshop.</p>
+      <div class="tags">
+        <span>Nano Banana</span><span>Photoshop</span><span>Illustration</span>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="sprockets"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <span class="tc-label mono">FRAME 05 · 00:00:01:00</span>
+      <div class="video-slot">
+        <div class="play"></div>
+        <span class="vlabel" data-en="Video coming soon">Відео буде додано</span>
+      </div>
+      <h3 data-en="Video tutorial, Elai by Panopto">Відеоінструкція, Elai by Panopto</h3>
+      <p data-en="Recorded and edited a step-by-step video tutorial explaining the product features.">Записав і змонтував навчальну відеоінструкцію з поясненням функціоналу продукту крок за кроком.</p>
+      <div class="tags">
+        <span>Screen Recording</span><span>Video Editing</span><span>Tutorial</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="section-head reveal">
+    <h2 class="display" data-en="Tools">Інструменти</h2>
+    <div class="tag mono">05 / STACK</div>
+  </div>
+  <div class="stack-groups reveal">
+    <div class="stack-group">
+      <div class="g-label mono">GENERATIVE</div>
+      <div class="chip-row">
+        <span class="chip">Midjourney</span><span class="chip">Nano Banana</span><span class="chip">Kling</span>
+        <span class="chip">Runway</span><span class="chip">Seedance</span><span class="chip">HeyGen</span>
+        <span class="chip">ElevenLabs</span><span class="chip">Suno</span>
+      </div>
+    </div>
+    <div class="stack-group">
+      <div class="g-label mono">AUTOMATION</div>
+      <div class="chip-row">
+        <span class="chip">n8n</span><span class="chip">Make.com</span><span class="chip">Google Apps Script</span>
+        <span class="chip">Claude API</span><span class="chip">Claude Code</span><span class="chip">Python</span><span class="chip">AWS</span>
+      </div>
+    </div>
+    <div class="stack-group">
+      <div class="g-label mono">CREATIVE</div>
+      <div class="chip-row">
+        <span class="chip">After Effects</span><span class="chip">Premiere Pro</span>
+        <span class="chip">Photoshop</span><span class="chip">Lightroom</span>
+      </div>
+    </div>
+    <div class="stack-group">
+      <div class="g-label mono">FRONTEND</div>
+      <div class="chip-row">
+        <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-wrap reveal">
+    <h2 class="display"><span data-en="Open to new projects in">Відкритий до нових проєктів у</span> <span class="accent" data-en="AI production">AI-продакшні</span> <span data-en="and automation.">та автоматизації.</span></h2>
+    <div class="contact-list">
+      <div class="contact-row"><span class="c-label mono">EMAIL</span><span class="c-val">email@example.com</span></div>
+      <div class="contact-row"><span class="c-label mono">TELEGRAM</span><span class="c-val">@your_handle</span></div>
+      <div class="contact-row"><span class="c-label mono">GITHUB</span><span class="c-val">github.com/your-username</span></div>
+      <div class="contact-row"><span class="c-label mono">LINKEDIN</span><span class="c-val">linkedin.com/in/your-profile</span></div>
+      <div class="contact-row"><span class="c-label mono">DJINNI</span><span class="c-val">djinni.co/q/your-profile</span></div>
+    </div>
+  </div>
+</section>
+
+<footer class="mono">
+  <span>© 2026 · Kyiv, Ukraine</span>
+  <span>AI Content &amp; Automation Portfolio</span>
+</footer>
+
+<script>
+  // live timecode ticker (25fps style HH:MM:SS:FF), respects reduced motion
+  const tcEl = document.getElementById('timecode');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const start = performance.now();
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function renderTC(ms){
+    const totalFrames = Math.floor(ms / (1000/25));
+    const ff = totalFrames % 25;
+    const totalSeconds = Math.floor(totalFrames/25);
+    const ss = totalSeconds % 60;
+    const mm = Math.floor(totalSeconds/60) % 60;
+    const hh = Math.floor(totalSeconds/3600);
+    tcEl.textContent = `${pad(hh)}:${pad(mm)}:${pad(ss)}:${pad(ff)}`;
+  }
+  if(!reduced){
+    function tick(){
+      renderTC(performance.now() - start);
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  } else {
+    tcEl.textContent = '00:00:00:00';
+  }
+
+  // scroll reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in-view'); }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // language toggle (UA / EN)
+  const i18nEls = document.querySelectorAll('[data-en]');
+  i18nEls.forEach(el=>{ el.dataset.ua = el.textContent; });
+
+  function setLang(lang){
+    i18nEls.forEach(el=>{
+      el.textContent = lang === 'en' ? el.dataset.en : el.dataset.ua;
+    });
+    document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.langBtn === lang);
+    });
+    document.documentElement.setAttribute('lang', lang === 'en' ? 'en' : 'uk');
+  }
+
+  document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
+    btn.addEventListener('click', ()=> setLang(btn.dataset.langBtn));
+  });
+
+</script>
+
+</body>
+</html>
