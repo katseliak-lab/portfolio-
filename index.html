@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oleh · AI Specialist & AI Engineer</title>
-<meta name="description" content="Oleh, AI Specialist із нахилом до коду. Автоматизації, пайплайни, API-інтеграції та AI-контент повного циклу.">
+<title>Oleh Katseliak · AI Engineer &amp; Automation</title>
+<meta name="description" content="Oleh Katseliak — AI Engineer із нахилом до коду. Автоматизації, пайплайни, API-інтеграції, RAG та AI-контент повного циклу. Живі проєкти на GitHub.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Oleh · AI Specialist & AI Engineer">
-<meta property="og:description" content="Автоматизації, пайплайни, API-інтеграції та AI-контент повного циклу.">
+<meta property="og:title" content="Oleh Katseliak · AI Engineer &amp; Automation">
+<meta property="og:description" content="Автоматизації, пайплайни, API-інтеграції, RAG та AI-контент повного циклу. Живі проєкти на GitHub.">
 <meta property="og:image" content="oleh-photo.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0D0C'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%234DD8C4'/%3E%3C/svg%3E">
@@ -184,14 +184,14 @@
     display:inline-block;
   }
   .hero h1{
-    font-size:clamp(56px,11vw,150px);
+    font-size:clamp(52px,10vw,140px);
     line-height:0.92;
     font-weight:700;
     letter-spacing:-0.02em;
   }
   .hero .sub{
     margin-top:28px;
-    max-width:620px;
+    max-width:640px;
     font-size:clamp(16px,2vw,20px);
     color:var(--text-dim);
     line-height:1.6;
@@ -217,6 +217,36 @@
     border-color:var(--signal);
     font-weight:600;
   }
+
+  /* ---------- CTA buttons ---------- */
+  .hero-cta{
+    margin-top:38px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:13px 22px;
+    border:1px solid var(--line-strong);
+    color:var(--text);
+    transition:border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+  }
+  .btn:hover{border-color:var(--signal);color:var(--signal);}
+  .btn-primary{
+    background:var(--signal);
+    color:var(--bg);
+    border-color:var(--signal);
+    font-weight:600;
+  }
+  .btn-primary:hover{background:transparent;color:var(--signal);}
+
   .scroll-cue{
     position:absolute;
     bottom:48px;left:8vw;
@@ -442,6 +472,93 @@
   .eng-skills{
     margin-top:40px;
   }
+  .view-code{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--signal);
+    border:1px solid var(--line);
+    padding:8px 14px;
+    margin-top:14px;
+    transition:border-color 0.25s ease, background 0.25s ease;
+  }
+  .view-code:hover{border-color:var(--signal);background:rgba(77,216,196,0.06);}
+
+  /* ---------- code / repos ---------- */
+  .code-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    gap:20px;
+  }
+  .repo-card{
+    display:flex;
+    flex-direction:column;
+    background:var(--bg-elev);
+    border:1px solid var(--line);
+    padding:26px 24px 22px;
+    transition:transform 0.32s ease, border-color 0.32s ease;
+  }
+  .repo-card:hover{
+    transform:translateY(-5px);
+    border-color:var(--signal);
+  }
+  .repo-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+  }
+  .repo-idx{
+    font-size:11px;
+    color:var(--text-faint);
+    letter-spacing:0.14em;
+  }
+  .repo-arrow{
+    font-size:15px;
+    color:var(--text-faint);
+    transition:color 0.25s ease, transform 0.25s ease;
+  }
+  .repo-card:hover .repo-arrow{
+    color:var(--signal);
+    transform:translate(2px,-2px);
+  }
+  .repo-card h3{
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:12px;
+    line-height:1.3;
+  }
+  .repo-card p{
+    font-size:13.5px;
+    color:var(--text-dim);
+    line-height:1.7;
+    margin-bottom:18px;
+    flex:1;
+  }
+  .repo-tags{
+    display:flex;flex-wrap:wrap;gap:6px;
+    margin-bottom:16px;
+  }
+  .repo-tags span{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    color:var(--text-faint);
+    border:1px solid var(--line);
+    padding:4px 8px;
+  }
+  .repo-foot{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--text-faint);
+    letter-spacing:0.02em;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    word-break:break-all;
+    transition:color 0.25s ease;
+  }
+  .repo-card:hover .repo-foot{color:var(--text-dim);}
 
   /* ---------- portrait / media ---------- */
   .portrait-frame{
@@ -632,7 +749,10 @@
     padding:20px 0;
     border-bottom:1px solid var(--line);
     font-size:16px;
+    transition:padding-left 0.25s ease;
   }
+  a.contact-row:hover{padding-left:12px;}
+  a.contact-row:hover .c-val{color:var(--signal);}
   .contact-row .c-label{
     font-family:'JetBrains Mono',monospace;
     font-size:11px;
@@ -642,7 +762,12 @@
   .contact-row .c-val{
     font-family:'JetBrains Mono',monospace;
     color:var(--text);
+    transition:color 0.25s ease;
+    display:flex;
+    align-items:center;
+    gap:10px;
   }
+  .contact-row .c-val .ext{color:var(--text-faint);font-size:12px;}
   footer{
     padding:36px 8vw 48px;
     display:flex;
@@ -663,10 +788,12 @@
     .chain.in-view .chain-link .line{height:100%;width:1px;}
     .stack-groups{grid-template-columns:1fr;gap:32px;}
     .eng-grid{grid-template-columns:1fr;gap:36px;}
+    .code-grid{grid-template-columns:1fr;}
     .flow-step{font-size:10.5px;padding:8px 10px;}
     .statusbar{padding:14px 18px;font-size:10px;}
     .brackets span{width:16px;height:16px;}
     .brackets .tl,.brackets .tr{top:44px;}
+    .hero-cta .btn{flex:1 1 auto;justify-content:center;}
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -695,22 +822,27 @@
 
 <nav class="topnav mono">
   <a href="#about">About</a>
-  <a href="#chain">Process</a>
   <a href="#engineering">Engineering</a>
-  <a href="#reel">Reel</a>
+  <a href="#code">Code</a>
   <a href="#stack">Stack</a>
+  <a href="#reel">Reel</a>
   <a href="#contact">Contact</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="eyebrow mono">AI SPECIALIST · AI ENGINEER · AI CONTENT</div>
-  <h1 class="display">Oleh</h1>
-  <p class="sub" data-en="AI Specialist with a lean toward code: I build automations, pipelines and integrations in Python, JSON and APIs, and also run AI content end to end, from generative video to voice cloning.">AI Specialist із нахилом до коду: будую автоматизації, пайплайни та інтеграції на Python, JSON і API, а також відповідаю за AI-контент повного циклу, від генеративного відео до voice cloning.</p>
+  <div class="eyebrow mono">AI ENGINEER · AUTOMATION · AI CONTENT</div>
+  <h1 class="display">Oleh Katseliak</h1>
+  <p class="sub" data-en="AI Engineer with a lean toward code: I build automations, pipelines and API integrations in Python — from a self-running cloud job bot to a RAG assistant — and also run AI content end to end, from generative video to voice cloning.">AI Engineer із нахилом до коду: будую автоматизації, пайплайни та інтеграції на Python — від самозапускного хмарного бота до RAG-асистента — а також відповідаю за AI-контент повного циклу, від генеративного відео до voice cloning.</p>
   <div class="roles">
-    <span class="role-chip primary">AI Specialist</span>
-    <span class="role-chip">AI Engineer</span>
+    <span class="role-chip primary">AI Engineer</span>
+    <span class="role-chip">Automation</span>
     <span class="role-chip">AI Content</span>
+  </div>
+  <div class="hero-cta">
+    <a class="btn btn-primary" href="https://github.com/katseliak-lab" target="_blank" rel="noopener"><span data-en="View code">Переглянути код</span> ↗</a>
+    <a class="btn" href="#code"><span data-en="Projects">Проєкти</span></a>
+    <a class="btn" href="#contact"><span data-en="Get in touch">Зв'язатися</span></a>
   </div>
   <div class="scroll-cue"><span class="bar"></span> <span data-en="Scroll down">Гортай нижче</span></div>
 </section>
@@ -729,10 +861,11 @@
     </div>
     <div class="about-right">
       <div class="portrait-frame reveal">
-        <img src="oleh-photo.jpg" alt="Oleh" loading="lazy">
+        <img src="oleh-photo.jpg" alt="Oleh Katseliak" loading="lazy">
         <span class="tc-label mono">STILL · 00:00:07:00</span>
       </div>
       <div class="spec-sheet reveal">
+      <div class="spec-row"><span class="k mono">NAME</span><span class="v">Oleh Katseliak</span></div>
       <div class="spec-row"><span class="k mono">LOCATION</span><span class="v">Kyiv, Ukraine</span></div>
       <div class="spec-row"><span class="k mono">BACKGROUND</span><span class="v" data-en="Journalism → Broadcast &amp; Motion Design">Журналістика → Broadcast &amp; Motion Design</span></div>
       <div class="spec-row"><span class="k mono">CURRENT FOCUS</span><span class="v">AI Engineering &amp; Automation</span></div>
@@ -745,52 +878,13 @@
   </div>
 </section>
 
-<!-- SIGNAL CHAIN -->
-<section id="chain">
-  <div class="section-head reveal">
-    <h2 class="display" data-en="How it works">Як це працює</h2>
-    <div class="tag mono">02 / SIGNAL CHAIN</div>
-  </div>
-  <div class="chain reveal">
-    <div class="chain-node">
-      <div class="n-label mono">INPUT</div>
-      <h3 data-en="Idea &amp; material">Ідея та матеріал</h3>
-      <ul>
-        <li data-en="Script &amp; storyboard">Сценарій і розкадровка</li>
-        <li data-en="Character reference sheets">Референс-аркуші персонажів</li>
-        <li data-en="Voice for cloning">Голос для клонування</li>
-      </ul>
-    </div>
-    <div class="chain-link"><div class="line"></div></div>
-    <div class="chain-node">
-      <div class="n-label mono">PROCESS</div>
-      <h3 data-en="Generation &amp; automation">Генерація та автоматизація</h3>
-      <ul>
-        <li>Nano Banana · Midjourney · ComfyUI</li>
-        <li>n8n · Google Apps Script</li>
-        <li>Claude API · Python</li>
-      </ul>
-    </div>
-    <div class="chain-link"><div class="line"></div></div>
-    <div class="chain-node">
-      <div class="n-label mono">OUTPUT</div>
-      <h3 data-en="Final content">Готовий контент</h3>
-      <ul>
-        <li data-en="Kling · Veo · Runway animation">Kling · Veo · Runway анімація</li>
-        <li data-en="HeyGen avatars · ElevenLabs">HeyGen аватари · ElevenLabs</li>
-        <li data-en="Edited video">Змонтоване відео</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
 <!-- ENGINEERING -->
 <section id="engineering">
   <div class="section-head reveal">
     <h2 class="display" data-en="Engineering">Технічна частина</h2>
-    <div class="tag mono">03 / ENGINEERING</div>
+    <div class="tag mono">02 / ENGINEERING</div>
   </div>
-  <p class="eng-intro reveal" data-en="This is the part I am growing the most right now: code, automation architecture, and working with APIs. Below is a breakdown of a real pipeline I built from scratch for Elai by Panopto.">Найбільше зараз розвиваю саме цю частину: код, архітектуру автоматизацій і роботу з API. Нижче, розбір реального пайплайну, який побудував з нуля для Elai by Panopto.</p>
+  <p class="eng-intro reveal" data-en="This is the part I am growing the most right now: code, automation architecture, and working with APIs. Below is a breakdown of two real pipelines I built from scratch for Elai by Panopto. More production code lives in the Open Source section below.">Найбільше зараз розвиваю саме цю частину: код, архітектуру автоматизацій і роботу з API. Нижче, розбір двох реальних пайплайнів, які побудував з нуля для Elai by Panopto. Більше робочого коду, у розділі Open Source нижче.</p>
   <div class="eng-grid">
     <div class="reveal">
       <div class="flow-row">
@@ -803,6 +897,7 @@
         <span class="flow-step" data-en="Confluence docs">Confluence-докс</span>
       </div>
       <p class="flow-caption" data-en="Deduplication by timestamp, filtering of system messages, New / In Review / Done statuses. The project initially covered Jira, Zendesk, G2 and email; in the final version I deliberately narrowed it to Slack so the pipeline stayed reliable and easy to maintain.">Дедуплікація за timestamp, фільтрація системних повідомлень, статуси New / In Review / Done. Спочатку проєкт покривав Jira, Zendesk, G2 і email, у фінальній версії свідомо звузив до Slack, щоб пайплайн залишався надійним і простим у підтримці.</p>
+      <a class="view-code" href="https://github.com/katseliak-lab/feedback-pipeline" target="_blank" rel="noopener" data-en="Code: feedback-pipeline ↗">Код: feedback-pipeline ↗</a>
 
       <div class="case-label mono" data-en="Case 02">Кейс 02</div>
       <div class="flow-row">
@@ -814,11 +909,13 @@
         <span class="flow-step" data-en="Website (target size)">Сайт (заданий розмір)</span>
       </div>
       <p class="flow-caption" data-en="An automation that processed content directly inside Jupyter Notebook, resized images to fit the site template, and published the result without manual intervention.">Автоматизація, яка обробляла контент прямо в Jupyter Notebook, приводила зображення до потрібного розміру під шаблон сайту і публікувала результат без ручного втручання.</p>
+      <a class="view-code" href="https://github.com/katseliak-lab/content-auto-publish" target="_blank" rel="noopener" data-en="Code: content-auto-publish ↗">Код: content-auto-publish ↗</a>
 
       <div class="eng-skills spec-sheet">
-        <div class="spec-row"><span class="k mono">LANGUAGES</span><span class="v">JavaScript (Apps Script), Python, HTML/CSS</span></div>
+        <div class="spec-row"><span class="k mono">LANGUAGES</span><span class="v">Python, JavaScript (Apps Script), HTML/CSS</span></div>
         <div class="spec-row"><span class="k mono">APIS</span><span class="v">Slack API, Sheets API, Claude API, REST</span></div>
-        <div class="spec-row"><span class="k mono">CONCEPTS</span><span class="v" data-en="OAuth scopes, triggers, error handling">OAuth scopes, тригери, обробка помилок</span></div>
+        <div class="spec-row"><span class="k mono">CONCEPTS</span><span class="v" data-en="OAuth scopes, triggers, error handling, RAG">OAuth scopes, тригери, обробка помилок, RAG</span></div>
+        <div class="spec-row"><span class="k mono">CLOUD / CI</span><span class="v">GitHub Actions · AWS · Streamlit Cloud</span></div>
         <div class="spec-row"><span class="k mono" data-en="ALSO AT ELAI">ТАКОЖ В ELAI</span><span class="v">AWS · Jupyter Notebook · Frontend · JSON</span></div>
         <div class="spec-row"><span class="k mono" data-en="CURRENTLY LEVELING UP">ПРОКАЧУЮ ЗАРАЗ</span><span class="v" data-en="System architecture, backend fundamentals">Архітектура систем, backend-основи</span></div>
       </div>
@@ -857,11 +954,164 @@
   </div>
 </section>
 
+<!-- CODE / OPEN SOURCE -->
+<section id="code">
+  <div class="section-head reveal">
+    <h2 class="display" data-en="Open source">Відкритий код</h2>
+    <div class="tag mono">03 / CODE</div>
+  </div>
+  <p class="eng-intro reveal" data-en="Public repositories — real, runnable code, not slideware. Each card links straight to GitHub.">Публічні репозиторії, реальний працюючий код, а не слайди. Кожна картка веде прямо на GitHub.</p>
+  <div class="code-grid reveal">
+
+    <a class="repo-card" href="https://github.com/katseliak-lab/djinni-job-search" target="_blank" rel="noopener">
+      <div class="repo-top"><span class="repo-idx mono">01</span><span class="repo-arrow mono">↗</span></div>
+      <h3>Djinni Job Search Automation</h3>
+      <p data-en="A daily cloud job-search bot: pulls Djinni RSS, scores roles against my stack with senior/PhD penalties, keeps a Google Sheets tracker, and generates cover letters via Claude. Runs itself every day on GitHub Actions.">Щоденний хмарний бот пошуку роботи: тягне вакансії з RSS Djinni, скорить під мій стек зі штрафами за senior/PhD, веде трекер у Google Sheets і генерує cover-letters через Claude. Сам запускається щодня на GitHub Actions.</p>
+      <div class="repo-tags"><span>Python</span><span>Claude API</span><span>Google Sheets</span><span>GitHub Actions</span><span>RSS</span></div>
+      <div class="repo-foot">github.com/katseliak-lab/djinni-job-search</div>
+    </a>
+
+    <a class="repo-card" href="https://github.com/katseliak-lab/portfolio-rag-bot" target="_blank" rel="noopener">
+      <div class="repo-top"><span class="repo-idx mono">02</span><span class="repo-arrow mono">↗</span></div>
+      <h3>Portfolio RAG Support Bot</h3>
+      <p data-en="A retrieval-augmented chatbot that answers questions about me strictly from a real knowledge base: embeddings + cosine retrieval + Claude, and it says so when it doesn't know. Streamlit UI.">Retrieval-augmented чатбот, що відповідає на питання про мене лише з реальної бази знань: embeddings + косинусний пошук + Claude, і чесно каже, коли не знає. UI на Streamlit.</p>
+      <div class="repo-tags"><span>Python</span><span>Claude API</span><span>sentence-transformers</span><span>NumPy</span><span>Streamlit</span></div>
+      <div class="repo-foot">github.com/katseliak-lab/portfolio-rag-bot</div>
+    </a>
+
+    <a class="repo-card" href="https://github.com/katseliak-lab/feedback-pipeline" target="_blank" rel="noopener">
+      <div class="repo-top"><span class="repo-idx mono">03</span><span class="repo-arrow mono">↗</span></div>
+      <h3>Feedback Pipeline</h3>
+      <p data-en="A Slack → Google Sheets feedback aggregator on Apps Script: keyword sentiment tagging, deduplication by timestamp, and New / In Review / Done statuses. Built for the product team at Elai by Panopto.">Агрегатор фідбеку Slack → Google Sheets на Apps Script: sentiment за ключовими словами, дедуплікація за timestamp і статуси New / In Review / Done. Побудований для продуктової команди в Elai by Panopto.</p>
+      <div class="repo-tags"><span>Apps Script</span><span>Slack API</span><span>Sheets API</span><span>OAuth</span></div>
+      <div class="repo-foot">github.com/katseliak-lab/feedback-pipeline</div>
+    </a>
+
+    <a class="repo-card" href="https://github.com/katseliak-lab/ai-character-consistency-toolkit" target="_blank" rel="noopener">
+      <div class="repo-top"><span class="repo-idx mono">04</span><span class="repo-arrow mono">↗</span></div>
+      <h3>AI Character Consistency Toolkit</h3>
+      <p data-en="A prompt-engineering toolkit that keeps AI characters consistent across a 21-shot pipeline: multi-angle reference sheets, a negative-prompt library, and numbered multi-reference prompting for group scenes.">Prompt-engineering toolkit, що тримає AI-персонажів консистентними на 21 кадр: багаторакурсні референс-аркуші, бібліотека негативних промптів і нумероване мульти-референс промптування для групових сцен.</p>
+      <div class="repo-tags"><span>Python</span><span>Nano Banana</span><span>Kling</span><span>Prompt Engineering</span></div>
+      <div class="repo-foot">github.com/katseliak-lab/ai-character-consistency-toolkit</div>
+    </a>
+
+    <a class="repo-card" href="https://github.com/katseliak-lab/voice-ai-demo" target="_blank" rel="noopener">
+      <div class="repo-top"><span class="repo-idx mono">05</span><span class="repo-arrow mono">↗</span></div>
+      <h3>Voice AI Demo</h3>
+      <p data-en="A voice-cloning and batch-TTS toolkit: segments a script by scene, batch-generates audio with consistent voice settings, and emits a JSON manifest for the edit timeline.">Toolkit клонування голосу і batch-TTS: розбиває сценарій на сцени, пакетно генерує аудіо зі сталими налаштуваннями голосу й віддає JSON-маніфест для монтажного таймлайну.</p>
+      <div class="repo-tags"><span>Python</span><span>ElevenLabs API</span><span>TTS</span></div>
+      <div class="repo-foot">github.com/katseliak-lab/voice-ai-demo</div>
+    </a>
+
+    <a class="repo-card" href="https://github.com/katseliak-lab/content-auto-publish" target="_blank" rel="noopener">
+      <div class="repo-top"><span class="repo-idx mono">06</span><span class="repo-arrow mono">↗</span></div>
+      <h3>Content Auto-Publish</h3>
+      <p data-en="A notebook-driven publish pipeline: draft in Jupyter, auto-resize every image to the CMS's exact dimensions (Pillow), and publish via API in a single call.">Пайплайн публікації з Jupyter: чернетка в ноутбуці, авто-ресайз кожного зображення під точні розміри CMS (Pillow) і публікація через API одним викликом.</p>
+      <div class="repo-tags"><span>Python</span><span>Jupyter</span><span>Pillow</span><span>REST</span></div>
+      <div class="repo-foot">github.com/katseliak-lab/content-auto-publish</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="section-head reveal">
+    <h2 class="display" data-en="Tools">Інструменти</h2>
+    <div class="tag mono">04 / STACK</div>
+  </div>
+  <div class="stack-groups reveal">
+    <div class="stack-group">
+      <div class="g-label mono">CODE &amp; APIS</div>
+      <div class="chip-row">
+        <span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip">Claude API</span>
+        <span class="chip">Claude Code</span><span class="chip">REST APIs</span><span class="chip">OAuth 2.0</span>
+        <span class="chip">JSON</span><span class="chip">Git</span><span class="chip">GitHub Actions</span>
+      </div>
+    </div>
+    <div class="stack-group">
+      <div class="g-label mono">AUTOMATION</div>
+      <div class="chip-row">
+        <span class="chip">n8n</span><span class="chip">Make.com</span><span class="chip">Google Apps Script</span>
+        <span class="chip">Slack API</span><span class="chip">Google Sheets API</span><span class="chip">RSS / feedparser</span>
+        <span class="chip">Pillow</span>
+      </div>
+    </div>
+    <div class="stack-group">
+      <div class="g-label mono">AI / ML</div>
+      <div class="chip-row">
+        <span class="chip">RAG</span><span class="chip">Embeddings</span><span class="chip">sentence-transformers</span>
+        <span class="chip">NumPy</span><span class="chip">Streamlit</span><span class="chip">AWS</span>
+      </div>
+    </div>
+    <div class="stack-group">
+      <div class="g-label mono">GENERATIVE</div>
+      <div class="chip-row">
+        <span class="chip">Midjourney</span><span class="chip">Nano Banana</span><span class="chip">Kling</span>
+        <span class="chip">Runway</span><span class="chip">Seedance</span><span class="chip">HeyGen</span>
+        <span class="chip">ElevenLabs</span><span class="chip">Suno</span>
+      </div>
+    </div>
+    <div class="stack-group">
+      <div class="g-label mono">CREATIVE</div>
+      <div class="chip-row">
+        <span class="chip">After Effects</span><span class="chip">Premiere Pro</span>
+        <span class="chip">Photoshop</span><span class="chip">Lightroom</span>
+      </div>
+    </div>
+    <div class="stack-group">
+      <div class="g-label mono">FRONTEND</div>
+      <div class="chip-row">
+        <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNAL CHAIN -->
+<section id="chain">
+  <div class="section-head reveal">
+    <h2 class="display" data-en="Content pipeline">Контент-пайплайн</h2>
+    <div class="tag mono">05 / SIGNAL CHAIN</div>
+  </div>
+  <div class="chain reveal">
+    <div class="chain-node">
+      <div class="n-label mono">INPUT</div>
+      <h3 data-en="Idea &amp; material">Ідея та матеріал</h3>
+      <ul>
+        <li data-en="Script &amp; storyboard">Сценарій і розкадровка</li>
+        <li data-en="Character reference sheets">Референс-аркуші персонажів</li>
+        <li data-en="Voice for cloning">Голос для клонування</li>
+      </ul>
+    </div>
+    <div class="chain-link"><div class="line"></div></div>
+    <div class="chain-node">
+      <div class="n-label mono">PROCESS</div>
+      <h3 data-en="Generation &amp; automation">Генерація та автоматизація</h3>
+      <ul>
+        <li>Nano Banana · Midjourney · ComfyUI</li>
+        <li>n8n · Google Apps Script</li>
+        <li>Claude API · Python</li>
+      </ul>
+    </div>
+    <div class="chain-link"><div class="line"></div></div>
+    <div class="chain-node">
+      <div class="n-label mono">OUTPUT</div>
+      <h3 data-en="Final content">Готовий контент</h3>
+      <ul>
+        <li data-en="Kling · Veo · Runway animation">Kling · Veo · Runway анімація</li>
+        <li data-en="HeyGen avatars · ElevenLabs">HeyGen аватари · ElevenLabs</li>
+        <li data-en="Edited video">Змонтоване відео</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- REEL -->
 <section id="reel">
   <div class="section-head reveal">
-    <h2 class="display" data-en="Projects">Проєкти</h2>
-    <div class="tag mono">04 / REEL</div>
+    <h2 class="display" data-en="Creative reel">Креативний рил</h2>
+    <div class="tag mono">06 / REEL</div>
   </div>
   <div class="filmstrip reveal">
 
@@ -872,7 +1122,7 @@
         <iframe src="https://www.youtube.com/embed/63BcOqq2DO0" title="THE LAST RIDE" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
       </div>
       <h3>THE LAST RIDE</h3>
-      <p data-en="A vertical AI microdrama for STORYBY. Full pre-production and production cycle: character design, a 21-shot storyboard in 9:16 format, and an animation prompt plan.">Вертикальна AI-дорама для STORYBY. Повний цикл пре-продакшну і продакшну: дизайн персонажів, розкадровка 21 кадру у форматі 9:16 та план анімаційних промптів.</p>
+      <p data-en="A vertical AI microdrama for STORYBY. Full pre-production and production cycle: character design, a 21-shot storyboard in 9:16 format, and an animation prompt plan. Toolkit open-sourced above.">Вертикальна AI-дорама для STORYBY. Повний цикл пре-продакшну і продакшну: дизайн персонажів, розкадровка 21 кадру у форматі 9:16 та план анімаційних промптів. Toolkit у відкритому коді вище.</p>
       <div class="tags">
         <span>Character Design</span><span>Storyboard</span><span>9:16</span><span>Nano Banana 2</span><span>Kling</span>
       </div>
@@ -953,61 +1203,23 @@
   </div>
 </section>
 
-<!-- STACK -->
-<section id="stack">
-  <div class="section-head reveal">
-    <h2 class="display" data-en="Tools">Інструменти</h2>
-    <div class="tag mono">05 / STACK</div>
-  </div>
-  <div class="stack-groups reveal">
-    <div class="stack-group">
-      <div class="g-label mono">GENERATIVE</div>
-      <div class="chip-row">
-        <span class="chip">Midjourney</span><span class="chip">Nano Banana</span><span class="chip">Kling</span>
-        <span class="chip">Runway</span><span class="chip">Seedance</span><span class="chip">HeyGen</span>
-        <span class="chip">ElevenLabs</span><span class="chip">Suno</span>
-      </div>
-    </div>
-    <div class="stack-group">
-      <div class="g-label mono">AUTOMATION</div>
-      <div class="chip-row">
-        <span class="chip">n8n</span><span class="chip">Make.com</span><span class="chip">Google Apps Script</span>
-        <span class="chip">Claude API</span><span class="chip">Claude Code</span><span class="chip">Python</span><span class="chip">AWS</span>
-      </div>
-    </div>
-    <div class="stack-group">
-      <div class="g-label mono">CREATIVE</div>
-      <div class="chip-row">
-        <span class="chip">After Effects</span><span class="chip">Premiere Pro</span>
-        <span class="chip">Photoshop</span><span class="chip">Lightroom</span>
-      </div>
-    </div>
-    <div class="stack-group">
-      <div class="g-label mono">FRONTEND</div>
-      <div class="chip-row">
-        <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- CONTACT -->
 <section class="contact" id="contact">
   <div class="contact-wrap reveal">
-    <h2 class="display"><span data-en="Open to new projects in">Відкритий до нових проєктів у</span> <span class="accent" data-en="AI production">AI-продакшні</span> <span data-en="and automation.">та автоматизації.</span></h2>
+    <h2 class="display"><span data-en="Open to new roles in">Відкритий до нових ролей у</span> <span class="accent" data-en="AI engineering">AI-інженерії</span> <span data-en="and automation.">та автоматизації.</span></h2>
     <div class="contact-list">
-      <div class="contact-row"><span class="c-label mono">EMAIL</span><span class="c-val">kattselyak@gmail.com</span></div>
-      <div class="contact-row"><span class="c-label mono">TELEGRAM</span><span class="c-val">@aliv_ok</span></div>
-      <div class="contact-row"><span class="c-label mono">GITHUB</span><span class="c-val">github.com/katseliak-lab</span></div>
-      <div class="contact-row"><span class="c-label mono">LINKEDIN</span><span class="c-val">linkedin.com/in/oleh-katseliak/</span></div>
-      <div class="contact-row"><span class="c-label mono">DJINNI</span><span class="c-val">djinni.co/q/2a75ceefb7/</span></div>
+      <a class="contact-row" href="mailto:kattselyak@gmail.com"><span class="c-label mono">EMAIL</span><span class="c-val">kattselyak@gmail.com <span class="ext mono">↗</span></span></a>
+      <a class="contact-row" href="https://t.me/aliv_ok" target="_blank" rel="noopener"><span class="c-label mono">TELEGRAM</span><span class="c-val">@aliv_ok <span class="ext mono">↗</span></span></a>
+      <a class="contact-row" href="https://github.com/katseliak-lab" target="_blank" rel="noopener"><span class="c-label mono">GITHUB</span><span class="c-val">github.com/katseliak-lab <span class="ext mono">↗</span></span></a>
+      <a class="contact-row" href="https://www.linkedin.com/in/oleh-katseliak/" target="_blank" rel="noopener"><span class="c-label mono">LINKEDIN</span><span class="c-val">linkedin.com/in/oleh-katseliak <span class="ext mono">↗</span></span></a>
+      <a class="contact-row" href="https://djinni.co/q/2a75ceefb7/" target="_blank" rel="noopener"><span class="c-label mono">DJINNI</span><span class="c-val">djinni.co/q/2a75ceefb7 <span class="ext mono">↗</span></span></a>
     </div>
   </div>
 </section>
 
 <footer class="mono">
-  <span>© 2026 · Kyiv, Ukraine</span>
-  <span>AI Content &amp; Automation Portfolio</span>
+  <span>© 2026 · Oleh Katseliak · Kyiv, Ukraine</span>
+  <span>AI Engineering · Automation · AI Content</span>
 </footer>
 
 <script>
