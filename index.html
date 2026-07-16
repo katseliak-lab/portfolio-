@@ -559,6 +559,35 @@
     transition:color 0.25s ease;
   }
   .repo-card:hover .repo-foot{color:var(--text-dim);}
+  .repo-card.live{border-color:rgba(77,216,196,0.40);}
+  .badge-live{
+    display:inline-flex;align-items:center;gap:7px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--signal);
+  }
+  .badge-live .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--signal);
+    animation:pulse 1.4s ease-in-out infinite;
+  }
+  .repo-links{
+    display:flex;gap:10px;flex-wrap:wrap;
+    padding-top:14px;border-top:1px solid var(--line);
+  }
+  .repo-links a{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:0.06em;text-transform:uppercase;
+    padding:9px 14px;border:1px solid var(--line-strong);
+    color:var(--text);
+    transition:border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+  }
+  .repo-links a:hover{border-color:var(--signal);color:var(--signal);}
+  .repo-links a.primary{
+    background:var(--signal);color:var(--bg);
+    border-color:var(--signal);font-weight:600;
+  }
+  .repo-links a.primary:hover{background:transparent;color:var(--signal);}
 
   /* ---------- portrait / media ---------- */
   .portrait-frame{
@@ -841,7 +870,7 @@
   </div>
   <div class="hero-cta">
     <a class="btn btn-primary" href="https://github.com/katseliak-lab" target="_blank" rel="noopener"><span data-en="View code">Переглянути код</span> ↗</a>
-    <a class="btn" href="#code"><span data-en="Projects">Проєкти</span></a>
+    <a class="btn" href="https://portfolio-rag-bot-jssfybhouqw4e2mwwjhfp7.streamlit.app/" target="_blank" rel="noopener"><span data-en="Live AI demo">AI-демо (live)</span> ↗</a>
     <a class="btn" href="#contact"><span data-en="Get in touch">Зв'язатися</span></a>
   </div>
   <div class="scroll-cue"><span class="bar"></span> <span data-en="Scroll down">Гортай нижче</span></div>
@@ -971,13 +1000,16 @@
       <div class="repo-foot">github.com/katseliak-lab/djinni-job-search</div>
     </a>
 
-    <a class="repo-card" href="https://github.com/katseliak-lab/portfolio-rag-bot" target="_blank" rel="noopener">
-      <div class="repo-top"><span class="repo-idx mono">02</span><span class="repo-arrow mono">↗</span></div>
+    <div class="repo-card live">
+      <div class="repo-top"><span class="repo-idx mono">02</span><span class="badge-live"><span class="dot"></span>Live</span></div>
       <h3>Portfolio RAG Support Bot</h3>
-      <p data-en="A retrieval-augmented chatbot that answers questions about me strictly from a real knowledge base: embeddings + cosine retrieval + Claude, and it says so when it doesn't know. Streamlit UI.">Retrieval-augmented чатбот, що відповідає на питання про мене лише з реальної бази знань: embeddings + косинусний пошук + Claude, і чесно каже, коли не знає. UI на Streamlit.</p>
+      <p data-en="A retrieval-augmented chatbot that answers questions about me strictly from a real knowledge base: embeddings + cosine retrieval + Claude, and it says so when it doesn't know. Live on Streamlit — ask it anything.">Retrieval-augmented чатбот, що відповідає на питання про мене лише з реальної бази знань: embeddings + косинусний пошук + Claude, і чесно каже, коли не знає. Живий на Streamlit — спитай будь-що.</p>
       <div class="repo-tags"><span>Python</span><span>Claude API</span><span>sentence-transformers</span><span>NumPy</span><span>Streamlit</span></div>
-      <div class="repo-foot">github.com/katseliak-lab/portfolio-rag-bot</div>
-    </a>
+      <div class="repo-links">
+        <a class="primary" href="https://portfolio-rag-bot-jssfybhouqw4e2mwwjhfp7.streamlit.app/" target="_blank" rel="noopener"><span data-en="Live demo">Живе демо</span> ↗</a>
+        <a href="https://github.com/katseliak-lab/portfolio-rag-bot" target="_blank" rel="noopener"><span data-en="Code">Код</span> ↗</a>
+      </div>
+    </div>
 
     <a class="repo-card" href="https://github.com/katseliak-lab/feedback-pipeline" target="_blank" rel="noopener">
       <div class="repo-top"><span class="repo-idx mono">03</span><span class="repo-arrow mono">↗</span></div>
